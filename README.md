@@ -19,13 +19,18 @@ This project deploys a simple voting application using these components:
 
 ## Architecture
 
-![Architecture Diagram](architecture.png)
+```text
+┌─────────┐    ┌─────────────┐    ┌─────────┐    ┌──────┐    ┌────────────┐    ┌────────────┐
+│  User   │───▶│ Voting App  │───▶│ Worker  │───▶│Redis │───▶│PostgreSQL  │───▶│ Result App │
+│         │    │ (Frontend)  │    │         │    │(Cache│    │ (Database) │    │(Dashboard) │
+└─────────┘    └─────────────┘    └─────────┘    └──────┘    └────────────┘    └────────────┘
+```
 
-1. Users vote through the `voting-app`
-2. Votes are processed by the `worker`
+1. Users vote through the `voting-app` (frontend UI)
+2. Votes are processed by the `worker` (background service)
 3. Redis handles temporary state / queueing
 4. PostgreSQL stores persistent vote data
-5. `result-app` displays aggregated results
+5. `result-app` displays aggregated results (dashboard)
 
 ## Repository structure
 
@@ -34,7 +39,6 @@ This repository is organized to showcase different Kubernetes deployment strateg
 ```text
 .
 ├── README.md                           # Project documentation and setup guide
-├── architecture.png                    # Visual representation of the application architecture
 ├── k8s-pods/                           # Raw Pod manifests (beginner level)
 │   ├── voting-app-pod.yaml             # Defines the voting app Pod with container spec
 │   ├── result-app-pod.yaml             # Defines the result app Pod
